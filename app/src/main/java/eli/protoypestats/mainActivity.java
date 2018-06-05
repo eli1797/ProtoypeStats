@@ -15,6 +15,9 @@ import android.widget.RadioButton;
 
 public class mainActivity extends AppCompatActivity {
 
+    public int outOf;
+
+
     // UI references
     private EditText homeTeam, awayTeam;
 
