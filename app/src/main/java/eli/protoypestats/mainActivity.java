@@ -1,5 +1,6 @@
 package eli.protoypestats;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,13 @@ public class mainActivity extends AppCompatActivity {
         setupTeamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                homeTeam.setError(null);
+                awayTeam.setError(null);
+
+                if (!validateForm()) {
+                    return;
+                }
+
                 goToSetupTeam(view);
             }
         });
@@ -98,16 +106,10 @@ public class mainActivity extends AppCompatActivity {
     }
 
     private void goToSetupTeam(View view) {
-        homeTeam.setError(null);
-        awayTeam.setError(null);
-
-        if (!validateForm()) {
-            return;
-        }
-
-        //at this point the team names are valid
-
-
+        //go to next activity
+        Intent in = new Intent(mainActivity.this, List.class);
+        startActivity(in);
+//
 
     }
 
