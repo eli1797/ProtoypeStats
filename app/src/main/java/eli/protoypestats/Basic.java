@@ -21,6 +21,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -165,11 +166,9 @@ public class Basic extends AppCompatActivity {
 
 
             try {
-                FileOutputStream f = new FileOutputStream(file);
-                PrintWriter pw = new PrintWriter(f);
+                PrintWriter pw = new PrintWriter(new FileWriter(file, true));
                 pw.println(toLog);
                 pw.close();
-                f.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
