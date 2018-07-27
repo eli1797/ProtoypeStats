@@ -11,4 +11,13 @@ public class Player {
 
     //number on their jersey
     public int number;
+
+    public Player(String name, int number) {
+        this.name = name;
+        this.number = number;
+    }
+
+    public Player(String name) {
+        this(name, 0);
+    }
 }

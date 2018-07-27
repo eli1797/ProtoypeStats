@@ -4,5 +4,33 @@
     <string name="three_sets">3 Sets</string>
     <string name="five_sets">5 Sets</string>
     <string name="setup_team">Setup Team</string>
+    <string name="yes_time">Yes, reset</string>
+    <string name="no_time">No, don\'t reset</string>
+    <string-array name="players">
+        <item>Brendan</item>
+        <item>Chris</item>
+        <item>Corbett</item>
+        <item>Corey</item>
+        <item>Daniel</item>
+        <item>David</item>
+        <item>Eli</item>
+        <item>Evan</item>
+        <item>Hartley</item>
+        <item>Jack</item>
+        <item>Leo</item>
+        <item>Mason</item>
+        <item>Maxime</item>
+        <item>Micah</item>
+        <item>Nick</item>
+        <item>Richard</item>
+        <item>Robert</item>
+        <item>Sam</item>
+        <item>Sharath</item>
+        <item>Tom</item>
+        <item>Tyler</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1,10 +1,17 @@
 package eli.protoypestats;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,8 +19,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class mainActivity extends AppCompatActivity {
+
+    //Keep a log for debugging
+    private static final String TAG = "MainActivity";
+
+    //for requesting write to external storage permissions
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     public int outOf;
 
@@ -44,6 +58,38 @@ public class mainActivity extends AppCompatActivity {
             }
         });
 
+        permissionCheck();
+    }
+
+    private void permissionCheck() {
+        if (ContextCompat.checkSelfPermission(mainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Toast.makeText(mainActivity.this, "Write External Storage permission allows us to do store stats. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(mainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e(TAG, "Permission Granted, Now you can use local drive .");
+                } else {
+                    Log.e(TAG, "Permission Denied, You cannot use local drive .");
+                }
+                break;
+        }
+    }
+
+
+
+
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -52,7 +98,7 @@ public class mainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,6 +114,7 @@ public class mainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //@TODO: make it an option to add or drop players from the team here
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Snackbar.make(findViewById(R.id.coordinatorLayout), "Currently no settings", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -101,13 +148,17 @@ public class mainActivity extends AppCompatActivity {
         homeTeam.setError(null);
         awayTeam.setError(null);
 
-        if (!validateForm()) {
-            return;
-        }
+//        if (!validateForm()) {
+//            return;
+//        }
 
         //at this point the team names are valid
 
-
+        Intent in = new Intent(mainActivity.this, Basic.class);
+        String matchTitle = homeTeam.getText() + "_vs_" + awayTeam.getText();
+        Log.d(TAG, matchTitle);
+        in.putExtra("MATCH_TITLE", matchTitle);
+        startActivity(in);
 
     }
 
