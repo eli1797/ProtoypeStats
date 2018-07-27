@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -169,6 +170,8 @@ public class Basic extends AppCompatActivity {
                 PrintWriter pw = new PrintWriter(new FileWriter(file, true));
                 pw.println(toLog);
                 pw.close();
+
+                Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

@@ -62,7 +62,7 @@ public class mainActivity extends AppCompatActivity {
                     return;
                 }
 
-                goToSetupTeam(view);
+                goToStats(view);
             }
         });
 
@@ -152,7 +152,7 @@ public class mainActivity extends AppCompatActivity {
         }
     }
 
-    private void goToSetupTeam(View view) {
+    private void goToStats(View view) {
 
         homeTeam.setError(null);
         awayTeam.setError(null);
