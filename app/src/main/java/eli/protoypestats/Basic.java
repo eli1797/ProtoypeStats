@@ -145,7 +145,7 @@ public class Basic extends AppCompatActivity {
         builder.setTitle("Choose a player");
 
         // add a list
-        builder.setItems(getResources().getdir.mkdirs();StringArray(R.array.players), new DialogInterface.OnClickListener() {
+        builder.setItems(getResources().getStringArray(R.array.players), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                Log.v(TAG, getResources().getStringArray(R.array.players)[which]);
