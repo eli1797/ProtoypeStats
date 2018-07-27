@@ -238,21 +238,6 @@ public class Basic extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-//        new AlertDialog.Builder(this)
-//                .setIcon(android.R.drawable.ic_dialog_alert)
-//                .setTitle("Are you sure?")
-//                .setMessage("Are you sure you want to go back? The clock will reset.")
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-//                {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        finish();
-//                    }
-//
-//                })
-//                .setNegativeButton("No", null)
-//                .show();
-//    }
 
         Snackbar mySnackbar = Snackbar.make(findViewById(R.id.constraintLayout),
                 "Are you sure you want to go back? The stopwatch will reset.", Snackbar.LENGTH_LONG).setAction("Go Back", new View.OnClickListener() {
