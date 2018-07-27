@@ -55,7 +55,7 @@ public class Basic extends AppCompatActivity {
 
         /* Match Info */
         matchTitle = getIntent().getStringExtra("MATCH_TITLE");
-        Log.v(TAG, matchTitle);
+//        Log.v(TAG, matchTitle);
 
         /* Stopwatch */
         textView3 = (TextView) findViewById(R.id.textView3);
@@ -125,12 +125,11 @@ public class Basic extends AppCompatActivity {
         });
 
         if (isExternalStorageWritable() && isExternalStorageReadable()) {
-            Log.v(TAG, "Ready to write to file");
+//            Log.v(TAG, "Ready to write to file");
 
             File root = android.os.Environment.getExternalStorageDirectory();
             File dir = new File(root.getAbsolutePath() + "/download");
-            Log.d(TAG, dir.toString());
-            dir.mkdirs();
+//            Log.d(TAG, dir.toString());
             file = new File(dir, matchTitle + ".txt");
         }
 
@@ -146,7 +145,7 @@ public class Basic extends AppCompatActivity {
         builder.setTitle("Choose a player");
 
         // add a list
-        builder.setItems(getResources().getStringArray(R.array.players), new DialogInterface.OnClickListener() {
+        builder.setItems(getResources().getdir.mkdirs();StringArray(R.array.players), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                Log.v(TAG, getResources().getStringArray(R.array.players)[which]);
@@ -161,17 +160,19 @@ public class Basic extends AppCompatActivity {
 
     private void logStat(String type, String timeStamp, String name) {
         String toLog = type + " by " + name + " at " + timeStamp;
-        Log.d(TAG, toLog);
+//        Log.d(TAG, toLog);
 
         if (isExternalStorageWritable() && isExternalStorageReadable()) {
-            Log.v(TAG, "Ready to write to file");
+//            Log.v(TAG, "Ready to write to file");
 
 
             try {
+                //use filewriter so it moves down lines
                 PrintWriter pw = new PrintWriter(new FileWriter(file, true));
                 pw.println(toLog);
                 pw.close();
 
+                //let the user know they successfully logged a stat
                 Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
