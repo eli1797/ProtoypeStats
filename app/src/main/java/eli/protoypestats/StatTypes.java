@@ -12,5 +12,6 @@ public enum StatTypes {
     MISS_SERVE,
     GREAT_SERVE,
     COVER,
-    HIT_ATTEMPT
+    HIT_ATTEMPT, //use in coordination will kills to determine efficiency
+    OF_NOTE
 }
