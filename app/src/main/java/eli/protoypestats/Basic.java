@@ -3,6 +3,7 @@ package eli.protoypestats;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
@@ -230,4 +231,27 @@ public class Basic extends AppCompatActivity {
         }
 
     };
+
+    /**
+     * Requires confirmation for back button
+     * Don't want users accidentally resetting the stopwatch
+     */
+    @Override
+    public void onBackPressed(){
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Are you sure?")
+                .setMessage("Are you sure you want to close this activity? The clock will reset.")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 }
+
