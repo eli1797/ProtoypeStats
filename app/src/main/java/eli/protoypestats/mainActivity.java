@@ -1,9 +1,13 @@
 package eli.protoypestats;
 
+<<<<<<< HEAD
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+=======
+import android.content.Intent;
+>>>>>>> 565f3a52de511b2cf0eb837fe78f53bbaa8c53e3
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -54,6 +58,13 @@ public class mainActivity extends AppCompatActivity {
         setupTeamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                homeTeam.setError(null);
+                awayTeam.setError(null);
+
+                if (!validateForm()) {
+                    return;
+                }
+
                 goToSetupTeam(view);
             }
         });
@@ -145,6 +156,7 @@ public class mainActivity extends AppCompatActivity {
     }
 
     private void goToSetupTeam(View view) {
+<<<<<<< HEAD
         homeTeam.setError(null);
         awayTeam.setError(null);
 
@@ -159,6 +171,12 @@ public class mainActivity extends AppCompatActivity {
         Log.d(TAG, matchTitle);
         in.putExtra("MATCH_TITLE", matchTitle);
         startActivity(in);
+=======
+        //go to next activity
+        Intent in = new Intent(mainActivity.this, List.class);
+        startActivity(in);
+//
+>>>>>>> 565f3a52de511b2cf0eb837fe78f53bbaa8c53e3
 
     }
 
