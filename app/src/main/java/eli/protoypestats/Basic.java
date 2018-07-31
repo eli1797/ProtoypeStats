@@ -199,6 +199,7 @@ public class Basic extends AppCompatActivity {
         for (Set s : match) {
             logStat(s.toString());
         }
+        logStat("");
     }
 
     private void buttonHandler(final String type) {
