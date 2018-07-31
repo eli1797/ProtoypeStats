@@ -19,6 +19,11 @@ import java.util.LinkedList;
 
 import eli.protoypestats.dummy.Set;
 
+/**
+ * This activity is the second screen of the app
+ * It handlers the stopwatch and takes user input from stats
+ * Then it uses the StatLoggerSingleton to create a text file and write the stats to it
+ */
 public class Basic extends AppCompatActivity {
 
     //Keep a log for debugging
@@ -28,6 +33,7 @@ public class Basic extends AppCompatActivity {
     LinkedList<Set> match;
     Button endSet;
     StatLoggerSingleton statLogger;
+    File file;
 
     //stopwatch elements
     TextView textView3;
@@ -39,7 +45,6 @@ public class Basic extends AppCompatActivity {
     //stat recording elements
     Button error, kill, block, ace, receiveWin, receiveLoss;
     String matchTitle, homeTeam, awayTeam;
-    File file;
     int receiveWins = 0, receiveLosses = 0;
 
 
@@ -172,14 +177,13 @@ public class Basic extends AppCompatActivity {
                 //log the final scores
                 getScores();
 
-
                 statLogger.writeToFile(file, ""); //for nice formatting
             }
         });
     }
 
     /**
-     * When the user closes the timer
+     * When the user closes the timer give a summary of the match
      */
     private void reviewMatch() {
         statLogger.writeToFile(file, "");
@@ -190,25 +194,30 @@ public class Basic extends AppCompatActivity {
         statLogger.writeToFile(file, "");
     }
 
+    /**
+     * This method handles individual stats
+     * @param type The stat: block, ace, kill, etc.
+     */
     private void buttonHandler(final String type) {
+        //record the timestamp as soon as the button is pressed
         final String time = textView3.getText().toString();
-//        Log.v(TAG, time);
 
-        // setup the alert builder
+        //throw an with a list of players so the user can assign a player to the stat
         AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
         builder.setTitle("Choose a player");
 
-        // add a list
+        // add the the list
         builder.setItems(getResources().getStringArray(R.array.players), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                Log.v(TAG, getResources().getStringArray(R.array.players)[which]);
+                //create the string we want to write to the text file
                 String toLog = compose(type, time, getResources().getStringArray(R.array.players)[which]);
+                //write it using the StatLoggerSingleton
                 boolean successLog = statLogger.writeToFile(file, toLog);
+                //if everything works out let the user know their entry was recorded
                 if (successLog) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
-
             }
         });
 
@@ -218,12 +227,15 @@ public class Basic extends AppCompatActivity {
     }
 
     /**
-     * This method requests the final score from the user and logs it
+     * This method requests the final score of the set from the user and logs it
      */
     private void getScores() {
+        //create a set object
         final Set curSet = new Set();
 
         //Away team score
+
+        //Throw an alert dialog box with a textfield asking the user for the score
         final EditText scoreAwayEntry = new EditText(this);
         scoreAwayEntry.setInputType(InputType.TYPE_CLASS_NUMBER);
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -249,8 +261,8 @@ public class Basic extends AppCompatActivity {
         });
 
         // create and show the alert dialog
-        //this will be used second because the other score input dialog will be created and shown
-        // on top of this one
+        /* this will be used second because the other score input dialog will be created and shown
+        on top of this one */
         AlertDialog dialog1 = builder1.create();
         dialog1.show();
 
@@ -261,12 +273,12 @@ public class Basic extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Input Score");
         builder.setMessage("What did " + homeTeam + " score?");
-        builder.setView(scoreHomeEntry);
+        builder.setView(scoreHomeEntry); //add the EditText field to the alert dialog
         builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //set the param in the set POJO
                 curSet.setTeamOneScore(Integer.parseInt(scoreHomeEntry.getText().toString()));
-
                 //log the score
                 statLogger.writeToFile(file,homeTeam + ": " + scoreHomeEntry.getText().toString());
                 dialog.dismiss();
@@ -286,6 +298,8 @@ public class Basic extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
+        //Handle miscellaneous set (non-individual) stats
+
         //add the set to the match
         curSet.setTeamOne(homeTeam);
         curSet.setTeamTwo(awayTeam);
@@ -295,6 +309,7 @@ public class Basic extends AppCompatActivity {
         match.add(curSet);
 
         //reset the stat specific things
+        //this just sets the counters to zero
         resetSetStats();
 
     }
@@ -310,7 +325,9 @@ public class Basic extends AppCompatActivity {
     }
 
 
-
+    /**
+     * This is the stopwatch
+     */
     public Runnable runnable = new Runnable() {
 
         public void run() {
