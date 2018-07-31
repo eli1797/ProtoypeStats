@@ -42,7 +42,7 @@ public class Basic extends AppCompatActivity {
     int mins, secs, millis;
 
     //stat recording elements
-    Button error, kill, block;
+    Button error, kill, block, ace, receive_win, receive_loss;
     String matchTitle;
     File file;
 
@@ -101,6 +101,9 @@ public class Basic extends AppCompatActivity {
         error = (Button) findViewById(R.id.error);
         kill = (Button) findViewById(R.id.kill);
         block = (Button) findViewById(R.id.block);
+        ace = (Button) findViewById(R.id.ace);
+        receive_loss = (Button) findViewById(R.id.receive_loss);
+        receive_win = (Button) findViewById(R.id.receive_win);
 
 
         error.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +124,13 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 buttonHandler("Block");
+            }
+        });
+
+        ace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonHandler("Ace");
             }
         });
 
@@ -149,7 +159,8 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                Log.v(TAG, getResources().getStringArray(R.array.players)[which]);
-                logStat(type, time, getResources().getStringArray(R.array.players)[which]);
+                String toLog = compose(type, time, getResources().getStringArray(R.array.players)[which]);
+                logStat(toLog);
             }
         });
 
@@ -158,18 +169,19 @@ public class Basic extends AppCompatActivity {
         dialog.show();
     }
 
-    private void logStat(String type, String timeStamp, String name) {
-        String toLog = type + " by " + name + " at " + timeStamp;
-//        Log.d(TAG, toLog);
+    /**
+     * Method writes the text in the file
+     * @param entry The text to write in the file
+     */
+    private void logStat(String entry) {
 
         if (isExternalStorageWritable() && isExternalStorageReadable()) {
 //            Log.v(TAG, "Ready to write to file");
 
-
             try {
                 //use filewriter so it moves down lines
                 PrintWriter pw = new PrintWriter(new FileWriter(file, true));
-                pw.println(toLog);
+                pw.println(entry);
                 pw.close();
 
                 //let the user know they successfully logged a stat
@@ -184,6 +196,16 @@ public class Basic extends AppCompatActivity {
             Log.d(TAG, "ERROR, not prepared to write to file. Issue with external storage.");
         }
 
+    }
+
+    /**
+     * Method writes the stat that should be logged in the text file
+     * @param type The stat
+     * @param timeStamp When the stat occured
+     * @param name Who did it
+     */
+    private String compose(String type, String timeStamp, String name) {
+        return type + " by " + name + " at " + timeStamp;
     }
 
 
