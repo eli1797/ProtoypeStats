@@ -10,12 +10,11 @@
     <Button
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:text="@string/start"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -33,78 +32,116 @@
 
     <Button
         android:id="@+id/kill"
-        android:layout_width="wrap_content"
+        android:layout_width="88dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="324dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/kill"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/of_note"
         app:layout_constraintEnd_toStartOf="@+id/block"
-        app:layout_constraintStart_toEndOf="@+id/error" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ace" />
 
     <Button
         android:id="@+id/error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="325dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="76dp"
         android:text="@string/error"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/of_note"
+        app:layout_constraintTop_toTopOf="@+id/of_note" />
 
     <Button
         android:id="@+id/block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="325dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/block"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/of_note"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/kill" />
 
     <Button
         android:id="@+id/ace"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginBottom="225dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
         android:text="@string/ace"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/of_note"
+        app:layout_constraintEnd_toStartOf="@+id/kill"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/receive_loss"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="225dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="8dp"
         android:text="@string/receive_loss"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ace"
-        app:layout_constraintStart_toEndOf="@+id/receive_win" />
+        app:layout_constraintBottom_toBottomOf="@+id/serve_loss"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receive_win" />
 
     <Button
         android:id="@+id/receive_win"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="225dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/receive_win"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/serve_loss"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/serve_win" />
 
     <Button
         android:id="@+id/set_over"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="44dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/end_set"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/of_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:layout_marginStart="76dp"
+        android:text="@string/of_note"
+        app:layout_constraintBottom_toTopOf="@+id/serve_win"
+        app:layout_constraintEnd_toStartOf="@+id/error"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/serve_win"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="60dp"
+        android:text="@string/serve_win"
+        app:layout_constraintBottom_toTopOf="@+id/serve_loss"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/serve_loss"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="60dp"
+        android:text="@string/serve_loss"
+        app:layout_constraintBottom_toTopOf="@+id/set_over"
         app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

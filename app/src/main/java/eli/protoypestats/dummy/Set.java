@@ -29,7 +29,27 @@ public class Set {
     }
 
     //stats
-    private int receiveWin, receiveLoss;
+    private int receiveWin;
+    private int receiveLoss;
+
+    public int getServeWin() {
+        return serveWin;
+    }
+
+    public void setServeWin(int serveWin) {
+        this.serveWin = serveWin;
+    }
+
+    public int getServeLoss() {
+        return serveLoss;
+    }
+
+    public void setServeLoss(int serveLoss) {
+        this.serveLoss = serveLoss;
+    }
+
+    private int serveWin;
+    private int serveLoss;
 
     public String getTeamOne() {
         return teamOne;

@@ -43,9 +43,9 @@ public class Basic extends AppCompatActivity {
     int mins, secs, millis;
 
     //stat recording elements
-    Button error, kill, block, ace, receiveWin, receiveLoss;
+    Button error, kill, block, ace, receiveWin, receiveLoss, ofNote, serveWin, serveLoss;
     String matchTitle, homeTeam, awayTeam;
-    int receiveWins = 0, receiveLosses = 0;
+    int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0;
 
 
     @Override
@@ -116,8 +116,11 @@ public class Basic extends AppCompatActivity {
         kill = (Button) findViewById(R.id.kill);
         block = (Button) findViewById(R.id.block);
         ace = (Button) findViewById(R.id.ace);
+        ofNote = (Button) findViewById(R.id.of_note);
         receiveWin = (Button) findViewById(R.id.receive_win);
         receiveLoss = (Button) findViewById(R.id.receive_loss);
+        serveWin = (Button) findViewById(R.id.serve_win);
+        serveLoss = (Button) findViewById(R.id.serve_loss);
 
 
         error.setOnClickListener(new View.OnClickListener() {
@@ -148,11 +151,18 @@ public class Basic extends AppCompatActivity {
             }
         });
 
+        ofNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                statLogger.writeToFile(file, "Of Note at " + textView3.getText().toString());
+            }
+        });
+
         receiveWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 receiveWins++;  //win from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive Win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -160,7 +170,23 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 receiveLosses++;  //loss from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive Loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
+        serveWin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serveWins++;  //loss from receiving serve
+                Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
+        serveLoss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serveLosses++;  //loss from receiving serve
+                Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve Loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -173,6 +199,8 @@ public class Basic extends AppCompatActivity {
                 //log the set related stats
                 statLogger.writeToFile(file,"Receive Wins: " + receiveWins);
                 statLogger.writeToFile(file, "Receive Losses: " + receiveLosses);
+                statLogger.writeToFile(file,"Serve Wins: " + serveWins);
+                statLogger.writeToFile(file, "Serve Losses: " + serveLosses);
 
                 //log the final scores
                 getScores();
@@ -305,6 +333,8 @@ public class Basic extends AppCompatActivity {
         curSet.setTeamTwo(awayTeam);
         curSet.setReceiveWin(receiveWins);
         curSet.setReceiveLoss(receiveLosses);
+        curSet.setServeWin(serveWins);
+        curSet.setServeLoss(serveLosses);
 
         match.add(curSet);
 
@@ -357,6 +387,8 @@ public class Basic extends AppCompatActivity {
     private void resetSetStats () {
         receiveLosses = 0;
         receiveWins = 0;
+        serveWins = 0;
+        serveLosses = 0;
     }
 
     /**
