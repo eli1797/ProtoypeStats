@@ -147,6 +147,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 receiveWins++;  //win from receiving serve
+                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive Win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -154,6 +155,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 receiveLosses++;  //loss from receiving serve
+                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive Loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -174,10 +176,6 @@ public class Basic extends AppCompatActivity {
                 statLogger.writeToFile(file, ""); //for nice formatting
             }
         });
-
-
-
-
     }
 
     /**
@@ -206,7 +204,10 @@ public class Basic extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 //                Log.v(TAG, getResources().getStringArray(R.array.players)[which]);
                 String toLog = compose(type, time, getResources().getStringArray(R.array.players)[which]);
-                statLogger.writeToFile(file, toLog);
+                boolean successLog = statLogger.writeToFile(file, toLog);
+                if (successLog) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
 
             }
         });
@@ -297,7 +298,6 @@ public class Basic extends AppCompatActivity {
         resetSetStats();
 
     }
-
 
     /**
      * Method writes the stat that should be logged in the text file

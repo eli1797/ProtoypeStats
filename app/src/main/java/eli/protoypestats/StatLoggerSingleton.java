@@ -35,7 +35,7 @@ public class StatLoggerSingleton {
      * Method writes the text in the file
      * @param entry The text to write in the file
      */
-    public void writeToFile(File file, String entry) {
+    boolean writeToFile(File file, String entry) {
 
         if (isExternalStorageWritable() && isExternalStorageReadable()) {
 //            Log.v(TAG, "Ready to write to file");
@@ -48,20 +48,22 @@ public class StatLoggerSingleton {
 
                 Log.v(TAG, "Wrote \"" + entry + "\" to file: " + file.toString());
 
-                //let the user know they successfully logged a stat
-//                Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                return true;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                return false;
             } catch (IOException e) {
                 Log.d(TAG, "IOE exception" + e.getMessage());
                 e.printStackTrace();
+                return false;
             }
         } else {
             Log.d(TAG, "ERROR, not prepared to write to file. Issue with external storage.");
+            return false;
         }
     }
 
-    public File createFile (String fileName) {
+    File createFile (String fileName) {
         File root = android.os.Environment.getExternalStorageDirectory();
         File dir = new File(root.getAbsolutePath() + "/download");
 //            Log.d(TAG, dir.toString());
