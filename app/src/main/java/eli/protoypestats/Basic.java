@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import eli.protoypestats.dummy.Set;
 
@@ -32,8 +33,7 @@ public class Basic extends AppCompatActivity {
     private static final String TAG = "BasicActivity";
 
     //match elements
-    ArrayList<Set> match;
-    Set curSet;
+    LinkedList<Set> match;
     Button endSet;
 
     //stopwatch elements
@@ -47,6 +47,7 @@ public class Basic extends AppCompatActivity {
     Button error, kill, block, ace, receiveWin, receiveLoss;
     String matchTitle, homeTeam, awayTeam;
     File file;
+    int receiveWins = 0, receiveLosses = 0;
 
 
     @Override
@@ -65,9 +66,7 @@ public class Basic extends AppCompatActivity {
 //        Log.v(TAG, matchTitle);
         endSet = (Button) findViewById(R.id.set_over);
 
-        match = new ArrayList<Set>();
-        curSet = new Set();
-        match.add(curSet);
+        match = new LinkedList<>();
 
         /* Stopwatch */
         textView3 = (TextView) findViewById(R.id.textView3);
@@ -92,6 +91,7 @@ public class Basic extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             startTime = SystemClock.uptimeMillis();
                             handler.postDelayed(runnable, 0);
+                            reviewMatch();
                             dialog.dismiss();
                         }
                     });
@@ -149,14 +149,14 @@ public class Basic extends AppCompatActivity {
         receiveWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                curSet.plusReceiveWin();  //win from receiving serve
+                receiveWins++;  //win from receiving serve
             }
         });
 
         receiveLoss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                curSet.plusReceiveLoss();  //loss from receiving serve
+                receiveLosses++;  //loss from receiving serve
             }
         });
 
@@ -170,8 +170,8 @@ public class Basic extends AppCompatActivity {
                 getScores();
 
                 //log the set related stats
-                logStat("Receive Wins: " + curSet.getReceiveWin());
-                logStat("Receive Losses: " + curSet.getReceiveLoss());
+                logStat("Receive Wins: " + receiveWins);
+                logStat("Receive Losses: " + receiveLosses);
                 logStat(""); //for nice formatting
             }
         });
@@ -186,6 +186,15 @@ public class Basic extends AppCompatActivity {
         }
 
 
+    }
+
+    /**
+     * When the user closes the timer
+     */
+    private void reviewMatch() {
+        for (Set s : match) {
+            logStat(s.toString());
+        }
     }
 
     private void buttonHandler(final String type) {
@@ -216,7 +225,7 @@ public class Basic extends AppCompatActivity {
      * This method requests the final score from the user and logs it
      */
     private void getScores() {
-
+        final Set curSet = new Set();
 
         //Away team score
         final EditText scoreAwayEntry = new EditText(this);
@@ -281,8 +290,20 @@ public class Basic extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
+        //add the set to the match
+        curSet.setTeamOne(homeTeam);
+        curSet.setTeamTwo(awayTeam);
+        curSet.setReceiveWin(receiveWins);
+        curSet.setReceiveLoss(receiveLosses);
+
+        match.add(curSet);
+
+        //reset the stat specific things
+        resetSetStats();
 
     }
+
+
 
 
     /**
@@ -372,6 +393,14 @@ public class Basic extends AppCompatActivity {
         }
 
     };
+
+    /**
+     * Resets set specific stats the renew each set
+     */
+    private void resetSetStats () {
+        receiveLosses = 0;
+        receiveWins = 0;
+    }
 
     /**
      * Requires confirmation for back button

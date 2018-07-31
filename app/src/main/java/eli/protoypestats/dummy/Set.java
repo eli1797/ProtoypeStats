@@ -1,6 +1,8 @@
 package eli.protoypestats.dummy;
 
 /**
+ * POJO that represents a set (Volleyball)
+ * Not to be confused with Java Sets
  * Created by Elijah Bailey on 7/31/2018.
  */
 
@@ -67,5 +69,10 @@ public class Set {
 
     public void plusReceiveLoss() {
         this.receiveLoss = receiveLoss + 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Set between " + teamOne + ": " + teamOneScore + " and " + teamTwo + ": " + teamTwoScore;
     }
 }
