@@ -14,6 +14,9 @@
     <string name="kill">Kill</string>
     <string name="_00_00_00">00:00:00</string>
     <string name="start">Start</string>
+    <string name="end_set">End set</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
     <string-array name="players">
         <item>Brendan</item>
         <item>Chris</item>

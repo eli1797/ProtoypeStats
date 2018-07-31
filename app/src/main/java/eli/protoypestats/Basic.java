@@ -1,17 +1,10 @@
 package eli.protoypestats;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,10 +15,8 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -39,16 +30,17 @@ public class Basic extends AppCompatActivity {
     //match elements
     ArrayList<Set> match;
     Set curSet;
+    Button endSet;
 
     //stopwatch elements
     TextView textView3;
-    Button start_button;
+    Button startTimer;
     Handler handler;
     long milliTime, startTime, timeBuff, updateTime = 0L;
     int mins, secs, millis;
 
     //stat recording elements
-    Button error, kill, block, ace, receive_win, receive_loss;
+    Button error, kill, block, ace, receiveWin, receiveLoss;
     String matchTitle;
     File file;
 
@@ -61,6 +53,7 @@ public class Basic extends AppCompatActivity {
         /* Match Info */
         matchTitle = getIntent().getStringExtra("MATCH_TITLE");
 //        Log.v(TAG, matchTitle);
+        endSet = (Button) findViewById(R.id.set_over);
 
         match = new ArrayList<Set>();
         curSet = new Set();
@@ -68,11 +61,11 @@ public class Basic extends AppCompatActivity {
 
         /* Stopwatch */
         textView3 = (TextView) findViewById(R.id.textView3);
-        start_button = (Button) findViewById(R.id.start_button);
+        startTimer = (Button) findViewById(R.id.start_button);
 
         handler = new Handler();
 
-        start_button.setOnClickListener(new View.OnClickListener() {
+        startTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (startTime == 0) {
@@ -111,8 +104,8 @@ public class Basic extends AppCompatActivity {
         kill = (Button) findViewById(R.id.kill);
         block = (Button) findViewById(R.id.block);
         ace = (Button) findViewById(R.id.ace);
-        receive_win = (Button) findViewById(R.id.receive_win);
-        receive_loss = (Button) findViewById(R.id.receive_loss);
+        receiveWin = (Button) findViewById(R.id.receive_win);
+        receiveLoss = (Button) findViewById(R.id.receive_loss);
 
 
         error.setOnClickListener(new View.OnClickListener() {
@@ -143,17 +136,24 @@ public class Basic extends AppCompatActivity {
             }
         });
 
-        receive_win.setOnClickListener(new View.OnClickListener() {
+        receiveWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 curSet.plusReceiveWin();  //win from receiving serve
             }
         });
 
-        receive_loss.setOnClickListener(new View.OnClickListener() {
+        receiveLoss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 curSet.plusReceiveLoss();  //loss from receiving serve
+            }
+        });
+
+        receiveLoss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               String toLog = logSet();  //loss from receiving serve
             }
         });
 
@@ -191,6 +191,39 @@ public class Basic extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+//    /**
+//     * This method requests the final score from the user and logs this and any non-personal stats
+//     */
+//    private String logSet() {
+//        String toLog;
+//
+//        //Ask for the hometeam score then away team score
+//        // setup the alert builder
+//        AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
+//        builder.setTitle("What did " + hometea);
+//        builder.setMessage("Please enter the score for each team. Cancel if mistake.");
+//
+//
+//        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.dismiss();
+//
+//            }
+//        });
+//        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                // User cancelled the dialog
+//                dialog.cancel();
+//            }
+//        });
+//
+//        // create and show the alert dialog
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//
+//        return toLog
+//    }
 
     /**
      * Method writes the text in the file
