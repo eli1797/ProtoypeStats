@@ -13,5 +13,7 @@ public enum StatTypes {
     GREAT_SERVE,
     COVER,
     HIT_ATTEMPT, //use in coordination will kills to determine efficiency
-    OF_NOTE
+    OF_NOTE,
+    WON_POINT_ON_RECEIVE, //a stat experiment
+    LOST_POINT_ON_RECEIVE
 }
