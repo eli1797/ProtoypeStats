@@ -166,12 +166,14 @@ public class Basic extends AppCompatActivity {
                 Log.d(TAG, "end set clicked");
                 logStat(""); //for nice formatting
                 logStat("SET OVER");
-
-                getScores();
-
                 //log the set related stats
                 logStat("Receive Wins: " + receiveWins);
                 logStat("Receive Losses: " + receiveLosses);
+
+                //log the final scores
+                getScores();
+
+
                 logStat(""); //for nice formatting
             }
         });
@@ -192,6 +194,8 @@ public class Basic extends AppCompatActivity {
      * When the user closes the timer
      */
     private void reviewMatch() {
+        logStat("");
+        logStat("Clock Stopped");
         for (Set s : match) {
             logStat(s.toString());
         }

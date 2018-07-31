@@ -4,7 +4,7 @@ package eli.protoypestats.dummy;
  * POJO that represents a set (Volleyball)
  * Not to be confused with Java Sets
  * Created by Elijah Bailey on 7/31/2018.
- */
+ */ 
 
 public class Set {
 
