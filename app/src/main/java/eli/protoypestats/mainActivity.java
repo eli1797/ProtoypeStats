@@ -164,9 +164,8 @@ public class mainActivity extends AppCompatActivity {
         //at this point the team names are valid
 
         Intent in = new Intent(mainActivity.this, Basic.class);
-        String matchTitle = homeTeam.getText() + "_vs_" + awayTeam.getText();
-        Log.d(TAG, matchTitle);
-        in.putExtra("MATCH_TITLE", matchTitle);
+        in.putExtra("HOME_TEAM", homeTeam.getText().toString());
+        in.putExtra("AWAY_TEAM", awayTeam.getText().toString());
         startActivity(in);
 
     }

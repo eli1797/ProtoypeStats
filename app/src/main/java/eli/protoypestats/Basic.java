@@ -8,9 +8,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.File;
@@ -41,7 +43,7 @@ public class Basic extends AppCompatActivity {
 
     //stat recording elements
     Button error, kill, block, ace, receiveWin, receiveLoss;
-    String matchTitle;
+    String matchTitle, homeTeam, awayTeam;
     File file;
 
 
@@ -51,7 +53,13 @@ public class Basic extends AppCompatActivity {
         setContentView(R.layout.activity_basic);
 
         /* Match Info */
-        matchTitle = getIntent().getStringExtra("MATCH_TITLE");
+        homeTeam = getIntent().getStringExtra("HOME_TEAM");
+        awayTeam = getIntent().getStringExtra("AWAY_TEAM");
+        String matchTitle = homeTeam + "_vs_" + awayTeam;
+        Log.d(TAG, matchTitle);
+
+
+
 //        Log.v(TAG, matchTitle);
         endSet = (Button) findViewById(R.id.set_over);
 
@@ -150,10 +158,18 @@ public class Basic extends AppCompatActivity {
             }
         });
 
-        receiveLoss.setOnClickListener(new View.OnClickListener() {
+        endSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String toLog = logSet();  //loss from receiving serve
+                logStat(""); //for nice formatting
+                //log the final score
+                String toLog = logSet();
+                logStat(toLog);
+
+                //log the set related stats
+                logStat("Receive Wins: " + curSet.getReceiveWin());
+                logStat("Receive Losses: " + curSet.getReceiveLoss());
+                logStat(""); //for nice formatting
             }
         });
 
@@ -184,6 +200,7 @@ public class Basic extends AppCompatActivity {
 //                Log.v(TAG, getResources().getStringArray(R.array.players)[which]);
                 String toLog = compose(type, time, getResources().getStringArray(R.array.players)[which]);
                 logStat(toLog);
+
             }
         });
 
@@ -192,38 +209,72 @@ public class Basic extends AppCompatActivity {
         dialog.show();
     }
 
-//    /**
-//     * This method requests the final score from the user and logs this and any non-personal stats
-//     */
-//    private String logSet() {
-//        String toLog;
-//
-//        //Ask for the hometeam score then away team score
-//        // setup the alert builder
-//        AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
-//        builder.setTitle("What did " + hometea);
-//        builder.setMessage("Please enter the score for each team. Cancel if mistake.");
-//
-//
-//        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.dismiss();
-//
-//            }
-//        });
-//        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                // User cancelled the dialog
-//                dialog.cancel();
-//            }
-//        });
-//
-//        // create and show the alert dialog
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//
-//        return toLog
-//    }
+    /**
+     * This method requests the final score from the user and logs this and any non-personal stats
+     * Ask for the hometeam score then away team score
+     */
+    private String logSet() {
+        String toLog;
+
+        //Home team score
+        AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
+
+        //add the text field
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+        builder.setMessage("What did " + homeTeam + " score?");
+
+        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                curSet.setTeamOneScore(Integer.parseInt(input.getText().toString()));
+                dialog.dismiss();
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                dialog.cancel();
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        //Home team score
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Basic.this);
+
+        //add the text field
+        final EditText input1 = new EditText(this);
+        input1.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder1.setView(input1);
+        builder1.setMessage("What did " + awayTeam + " score?");
+
+        builder1.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                curSet.setTeamTwoScore(Integer.parseInt(input1.getText().toString()));
+                dialog.dismiss();
+
+            }
+        });
+        builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                dialog.cancel();
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog1 = builder1.create();
+        dialog1.show();
+
+        toLog = "SET OVER      " + homeTeam + ": " + curSet.getTeamOneScore() + "   " + awayTeam + ": " + curSet.getTeamTwoScore();
+
+        return toLog;
+    }
+
 
     /**
      * Method writes the text in the file

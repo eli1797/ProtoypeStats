@@ -6,8 +6,28 @@ package eli.protoypestats.dummy;
 
 public class Set {
 
+    //set info
     private String teamOne, teamTwo;
 
+    public int getTeamOneScore() {
+        return teamOneScore;
+    }
+
+    public void setTeamOneScore(int teamOneScore) {
+        this.teamOneScore = teamOneScore;
+    }
+
+    public int getTeamTwoScore() {
+        return teamTwoScore;
+    }
+
+    public void setTeamTwoScore(int teamTwoScore) {
+        this.teamTwoScore = teamTwoScore;
+    }
+
+    private int teamOneScore, teamTwoScore;
+
+    //stats
     private int receiveWin, receiveLoss;
 
     public String getTeamOne() {
