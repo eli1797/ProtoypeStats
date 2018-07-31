@@ -1,7 +1,6 @@
 package eli.protoypestats;
 
 import android.content.DialogInterface;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
@@ -10,19 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import eli.protoypestats.dummy.Set;
@@ -32,9 +24,10 @@ public class Basic extends AppCompatActivity {
     //Keep a log for debugging
     private static final String TAG = "BasicActivity";
 
-    //match elements
+    //general elements
     LinkedList<Set> match;
     Button endSet;
+    StatLoggerSingleton statLogger;
 
     //stopwatch elements
     TextView textView3;
@@ -55,12 +48,16 @@ public class Basic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic);
 
+
         /* Match Info */
         homeTeam = getIntent().getStringExtra("HOME_TEAM");
         awayTeam = getIntent().getStringExtra("AWAY_TEAM");
         String matchTitle = homeTeam + "_vs_" + awayTeam;
         Log.d(TAG, matchTitle);
 
+        //get singleton and setup logging
+        statLogger = StatLoggerSingleton.getInstance();
+        file = statLogger.createFile(matchTitle);
 
 
 //        Log.v(TAG, matchTitle);
@@ -164,28 +161,21 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "end set clicked");
-                logStat(""); //for nice formatting
-                logStat("SET OVER");
+                statLogger.writeToFile(file, ""); //for nice formatting
+                statLogger.writeToFile(file, "SET OVER");
                 //log the set related stats
-                logStat("Receive Wins: " + receiveWins);
-                logStat("Receive Losses: " + receiveLosses);
+                statLogger.writeToFile(file,"Receive Wins: " + receiveWins);
+                statLogger.writeToFile(file, "Receive Losses: " + receiveLosses);
 
                 //log the final scores
                 getScores();
 
 
-                logStat(""); //for nice formatting
+                statLogger.writeToFile(file, ""); //for nice formatting
             }
         });
 
-        if (isExternalStorageWritable() && isExternalStorageReadable()) {
-//            Log.v(TAG, "Ready to write to file");
 
-            File root = android.os.Environment.getExternalStorageDirectory();
-            File dir = new File(root.getAbsolutePath() + "/download");
-//            Log.d(TAG, dir.toString());
-            file = new File(dir, matchTitle + ".txt");
-        }
 
 
     }
@@ -194,12 +184,12 @@ public class Basic extends AppCompatActivity {
      * When the user closes the timer
      */
     private void reviewMatch() {
-        logStat("");
-        logStat("Clock Stopped");
+        statLogger.writeToFile(file, "");
+        statLogger.writeToFile(file, "Clock Stopped");
         for (Set s : match) {
-            logStat(s.toString());
+            statLogger.writeToFile(file, s.toString());
         }
-        logStat("");
+        statLogger.writeToFile(file, "");
     }
 
     private void buttonHandler(final String type) {
@@ -216,7 +206,7 @@ public class Basic extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 //                Log.v(TAG, getResources().getStringArray(R.array.players)[which]);
                 String toLog = compose(type, time, getResources().getStringArray(R.array.players)[which]);
-                logStat(toLog);
+                statLogger.writeToFile(file, toLog);
 
             }
         });
@@ -243,8 +233,8 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 curSet.setTeamTwoScore(Integer.parseInt(scoreAwayEntry.getText().toString()));
-                logStat(awayTeam + ": " + scoreAwayEntry.getText().toString());
-                logStat("");
+                statLogger.writeToFile(file, awayTeam + ": " + scoreAwayEntry.getText().toString());
+                statLogger.writeToFile(file,"");
                 dialog.dismiss();
             }
         });
@@ -252,7 +242,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
-                logStat("Action Cancelled");
+                statLogger.writeToFile(file,"Action Cancelled");
                 dialog.cancel();
             }
         });
@@ -277,7 +267,7 @@ public class Basic extends AppCompatActivity {
                 curSet.setTeamOneScore(Integer.parseInt(scoreHomeEntry.getText().toString()));
 
                 //log the score
-                logStat(homeTeam + ": " + scoreHomeEntry.getText().toString());
+                statLogger.writeToFile(file,homeTeam + ": " + scoreHomeEntry.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -286,7 +276,7 @@ public class Basic extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
                 //@TODO: Design the cancel button to work
-                logStat("Action Cancelled");
+                statLogger.writeToFile(file,"Action Cancelled");
                 dialog.cancel();
             }
         });
@@ -311,36 +301,7 @@ public class Basic extends AppCompatActivity {
 
 
 
-    /**
-     * Method writes the text in the file
-     * @param entry The text to write in the file
-     */
-    private void logStat(String entry) {
 
-        if (isExternalStorageWritable() && isExternalStorageReadable()) {
-//            Log.v(TAG, "Ready to write to file");
-
-            try {
-                //use filewriter so it moves down lines
-                PrintWriter pw = new PrintWriter(new FileWriter(file, true));
-                pw.println(entry);
-                pw.close();
-
-                Log.v(TAG, "Wrote to file: " + entry);
-
-                //let the user know they successfully logged a stat
-                Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                Log.d(TAG, "IOE exception" + e.getMessage());
-                e.printStackTrace();
-            }
-        } else {
-            Log.d(TAG, "ERROR, not prepared to write to file. Issue with external storage.");
-        }
-
-    }
 
     /**
      * Method writes the stat that should be logged in the text file
@@ -352,28 +313,6 @@ public class Basic extends AppCompatActivity {
         return type + " by " + name + " at " + timeStamp;
     }
 
-
-
-    /* Checks if external storage is available for read and write */
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            Log.v(TAG, "Ext. storage available to write");
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            Log.v(TAG, "Ext. storage available to read");
-            return true;
-        }
-        return false;
-    }
 
 
     public Runnable runnable = new Runnable() {
