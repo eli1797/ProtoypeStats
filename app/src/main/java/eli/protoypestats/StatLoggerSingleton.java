@@ -46,7 +46,7 @@ public class StatLoggerSingleton {
                 pw.println(entry);
                 pw.close();
 
-                Log.v(TAG, "Wrote to file: " + entry);
+                Log.v(TAG, "Wrote \"" + entry + "\" to file: " + file.toString());
 
                 //let the user know they successfully logged a stat
 //                Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();

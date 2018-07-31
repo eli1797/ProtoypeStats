@@ -299,10 +299,6 @@ public class Basic extends AppCompatActivity {
     }
 
 
-
-
-
-
     /**
      * Method writes the stat that should be logged in the text file
      * @param type The stat
