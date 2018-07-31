@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -162,10 +163,11 @@ public class Basic extends AppCompatActivity {
         endSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "end set clicked");
                 logStat(""); //for nice formatting
-                //log the final score
-                String toLog = logSet();
-                logStat(toLog);
+                logStat("SET OVER");
+
+                getScores();
 
                 //log the set related stats
                 logStat("Receive Wins: " + curSet.getReceiveWin());
@@ -211,32 +213,66 @@ public class Basic extends AppCompatActivity {
     }
 
     /**
-     * This method requests the final score from the user and logs this and any non-personal stats
-     * Ask for the hometeam score then away team score
+     * This method requests the final score from the user and logs it
      */
-    private String logSet() {
-        String toLog;
+    private void getScores() {
 
-        //Home team score
-        AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
 
-        //add the text field
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        builder.setView(input);
-        builder.setMessage("What did " + homeTeam + " score?");
-
-        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                curSet.setTeamOneScore(Integer.parseInt(input.getText().toString()));
+        //Away team score
+        final EditText scoreAwayEntry = new EditText(this);
+        scoreAwayEntry.setInputType(InputType.TYPE_CLASS_NUMBER);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Input Score");
+        builder1.setMessage("What did " + awayTeam + " score?");
+        builder1.setView(scoreAwayEntry);
+        builder1.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                curSet.setTeamTwoScore(Integer.parseInt(scoreAwayEntry.getText().toString()));
+                logStat(awayTeam + ": " + scoreAwayEntry.getText().toString());
+                logStat("");
                 dialog.dismiss();
-
             }
         });
-        
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
+                logStat("Action Cancelled");
+                dialog.cancel();
+            }
+        });
+
+        // create and show the alert dialog
+        //this will be used second because the other score input dialog will be created and shown
+        // on top of this one
+        AlertDialog dialog1 = builder1.create();
+        dialog1.show();
+
+
+        //Home team score
+        final EditText scoreHomeEntry = new EditText(this);
+        scoreHomeEntry.setInputType(InputType.TYPE_CLASS_NUMBER);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Input Score");
+        builder.setMessage("What did " + homeTeam + " score?");
+        builder.setView(scoreHomeEntry);
+        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                curSet.setTeamOneScore(Integer.parseInt(scoreHomeEntry.getText().toString()));
+
+                //log the score
+                logStat(homeTeam + ": " + scoreHomeEntry.getText().toString());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                //@TODO: Design the cancel button to work
+                logStat("Action Cancelled");
                 dialog.cancel();
             }
         });
@@ -245,36 +281,7 @@ public class Basic extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        //Home team score
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(Basic.this);
 
-        //add the text field
-        final EditText input1 = new EditText(this);
-        input1.setInputType(InputType.TYPE_CLASS_NUMBER);
-        builder1.setView(input1);
-        builder1.setMessage("What did " + awayTeam + " score?");
-
-        builder1.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                curSet.setTeamTwoScore(Integer.parseInt(input1.getText().toString()));
-                dialog.dismiss();
-
-            }
-        });
-        builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-                dialog.cancel();
-            }
-        });
-
-        // create and show the alert dialog
-        AlertDialog dialog1 = builder1.create();
-        dialog1.show();
-
-        toLog = "SET OVER      " + homeTeam + ": " + curSet.getTeamOneScore() + "   " + awayTeam + ": " + curSet.getTeamTwoScore();
-
-        return toLog;
     }
 
 
@@ -292,6 +299,8 @@ public class Basic extends AppCompatActivity {
                 PrintWriter pw = new PrintWriter(new FileWriter(file, true));
                 pw.println(entry);
                 pw.close();
+
+                Log.v(TAG, "Wrote to file: " + entry);
 
                 //let the user know they successfully logged a stat
                 Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();

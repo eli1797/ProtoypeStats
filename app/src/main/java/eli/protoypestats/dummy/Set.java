@@ -8,6 +8,7 @@ public class Set {
 
     //set info
     private String teamOne, teamTwo;
+    private int teamOneScore, teamTwoScore;
 
     public int getTeamOneScore() {
         return teamOneScore;
@@ -24,8 +25,6 @@ public class Set {
     public void setTeamTwoScore(int teamTwoScore) {
         this.teamTwoScore = teamTwoScore;
     }
-
-    private int teamOneScore, teamTwoScore;
 
     //stats
     private int receiveWin, receiveLoss;
