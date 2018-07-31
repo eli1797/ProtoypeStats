@@ -29,10 +29,16 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import eli.protoypestats.dummy.Set;
+
 public class Basic extends AppCompatActivity {
 
     //Keep a log for debugging
     private static final String TAG = "BasicActivity";
+
+    //match elements
+    ArrayList<Set> match;
+    Set curSet;
 
     //stopwatch elements
     TextView textView3;
@@ -47,7 +53,6 @@ public class Basic extends AppCompatActivity {
     File file;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,10 @@ public class Basic extends AppCompatActivity {
         /* Match Info */
         matchTitle = getIntent().getStringExtra("MATCH_TITLE");
 //        Log.v(TAG, matchTitle);
+
+        match = new ArrayList<Set>();
+        curSet = new Set();
+        match.add(curSet);
 
         /* Stopwatch */
         textView3 = (TextView) findViewById(R.id.textView3);
@@ -102,8 +111,8 @@ public class Basic extends AppCompatActivity {
         kill = (Button) findViewById(R.id.kill);
         block = (Button) findViewById(R.id.block);
         ace = (Button) findViewById(R.id.ace);
-        receive_loss = (Button) findViewById(R.id.receive_loss);
         receive_win = (Button) findViewById(R.id.receive_win);
+        receive_loss = (Button) findViewById(R.id.receive_loss);
 
 
         error.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +140,20 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 buttonHandler("Ace");
+            }
+        });
+
+        receive_win.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                curSet.plusReceiveWin();  //win from receiving serve
+            }
+        });
+
+        receive_loss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                curSet.plusReceiveLoss();  //loss from receiving serve
             }
         });
 
