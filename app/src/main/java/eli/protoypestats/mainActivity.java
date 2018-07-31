@@ -22,6 +22,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+/**
+ * This is the first screen of the application
+ * The user inputs two team names and some other info
+ * It also checks permissions as this app needs to write to text files
+ * The team names are is passed onto the next activity for logging
+ */
 public class mainActivity extends AppCompatActivity {
 
     //Keep a log for debugging
@@ -32,10 +38,8 @@ public class mainActivity extends AppCompatActivity {
 
     public int outOf;
 
-
     // UI references
     private EditText homeTeam, awayTeam;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +55,10 @@ public class mainActivity extends AppCompatActivity {
         awayTeam.setGravity(Gravity.CENTER);
 
         //Button for signing in
-        Button setupTeamButton = (Button) findViewById(R.id.setupTeamButton);
-        setupTeamButton.setOnClickListener(new View.OnClickListener() {
+        Button goToStatsButton = (Button) findViewById(R.id.goToStatsButton);
+        goToStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeTeam.setError(null);
-                awayTeam.setError(null);
-
-                if (!validateForm()) {
-                    return;
-                }
-
                 goToStats(view);
             }
         });
@@ -94,18 +91,6 @@ public class mainActivity extends AppCompatActivity {
                 break;
         }
     }
-
-
-
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
 
     @Override
@@ -157,12 +142,13 @@ public class mainActivity extends AppCompatActivity {
         homeTeam.setError(null);
         awayTeam.setError(null);
 
-//        if (!validateForm()) {
-//            return;
-//        }
+        //ensure there are valid entries in the team name textfields
+        if (!validateForm()) {
+            return;
+        }
 
         //at this point the team names are valid
-
+        //go to the next screen
         Intent in = new Intent(mainActivity.this, Basic.class);
         in.putExtra("HOME_TEAM", homeTeam.getText().toString());
         in.putExtra("AWAY_TEAM", awayTeam.getText().toString());
@@ -170,6 +156,10 @@ public class mainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method ensures the users text entry conforms to certain rules
+     * @return true if it does
+     */
     private boolean validateForm() {
         boolean valid = true;
 
