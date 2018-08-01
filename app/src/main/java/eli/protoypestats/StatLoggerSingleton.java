@@ -63,6 +63,11 @@ public class StatLoggerSingleton {
         }
     }
 
+    /**
+     * This method creates a file given the name
+     * @param fileName The intened name of the file
+     * @return the file with the appropriate name
+     */
     File createFile (String fileName) {
         File root = android.os.Environment.getExternalStorageDirectory();
         File dir = new File(root.getAbsolutePath() + "/download");
