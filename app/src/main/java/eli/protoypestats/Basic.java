@@ -83,6 +83,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (startTime == 0) {
+                    //start the stopwatch (aka start the runnable)
                     startTime = SystemClock.uptimeMillis();
                     handler.postDelayed(runnable, 0);
                 } else {
@@ -94,9 +95,12 @@ public class Basic extends AppCompatActivity {
 
                     builder.setPositiveButton(R.string.yes_time, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            startTime = 0;
+                            //stop the runnable
                             handler.removeCallbacks(runnable);
+                            //reset the stopwatch
+                            startTime = 0;
                             textView3.setText("00:00:00");
+                            //write then clear the match data
                             reviewMatch();
                             match = new LinkedList<>();
                             dialog.dismiss();
