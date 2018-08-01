@@ -1,6 +1,7 @@
 package eli.protoypestats;
 
 /**
+ * Just a list of stats I think I might add
  * Created by Elijah Bailey on 6/5/2018.
  */
 

@@ -173,7 +173,10 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 receiveLosses++;  //loss from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                boolean success = statLogger.writeToFile(file, "Receive loss at " + textView3.getText().toString());
+                if (success) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
