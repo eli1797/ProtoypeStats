@@ -94,9 +94,11 @@ public class Basic extends AppCompatActivity {
 
                     builder.setPositiveButton(R.string.yes_time, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            startTime = SystemClock.uptimeMillis();
-                            handler.postDelayed(runnable, 0);
+                            startTime = 0;
+                            handler.removeCallbacks(runnable);
+                            textView3.setText("00:00:00");
                             reviewMatch();
+                            match = new LinkedList<>();
                             dialog.dismiss();
                         }
                     });
