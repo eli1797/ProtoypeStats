@@ -7,11 +7,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -279,10 +282,15 @@ public class Basic extends AppCompatActivity {
         builder1.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                curSet.setTeamTwoScore(Integer.parseInt(scoreAwayEntry.getText().toString()));
+                //get the user input
+                int score = Integer.parseInt(scoreAwayEntry.getText().toString());
+                //set the param for the set
+                curSet.setAwayTeamScore(score);
+                //write to file
                 statLogger.writeToFile(file, awayTeam + ": " + scoreAwayEntry.getText().toString());
-                statLogger.writeToFile(file,"");
+                statLogger.writeToFile(file, "");
                 dialog.dismiss();
+
             }
         });
         builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -297,8 +305,29 @@ public class Basic extends AppCompatActivity {
         // create and show the alert dialog
         /* this will be used second because the other score input dialog will be created and shown
         on top of this one */
-        AlertDialog dialog1 = builder1.create();
+        final AlertDialog dialog1 = builder1.create();
         dialog1.show();
+
+        /* This next bit prevents an empty input */
+        //disable the positive button
+        dialog1.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        //add a text changed listener that enables the button once the textfield is not empty
+        scoreAwayEntry.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if (!(scoreAwayEntry.getText().toString().equals(""))) {
+                    dialog1.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing to do
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nothing to do
+            }
+        });  //allows click of button if textfield is not empty
 
 
         //Home team score
@@ -311,11 +340,13 @@ public class Basic extends AppCompatActivity {
         builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //get the user input
+                int score = Integer.parseInt(scoreHomeEntry.getText().toString());
                 //set the param in the set POJO
-                curSet.setTeamOneScore(Integer.parseInt(scoreHomeEntry.getText().toString()));
+                curSet.setHomeTeamScore(score);
                 //log the score
                 statLogger.writeToFile(file,homeTeam + ": " + scoreHomeEntry.getText().toString());
-                dialog.dismiss();
+
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -329,8 +360,30 @@ public class Basic extends AppCompatActivity {
         });
 
         // create and show the alert dialog
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
         dialog.show();
+
+
+        /* This next bit prevents an empty input */
+        //disable the positive button
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        //add a text changed listener that enables the button once the textfield is not empty
+        scoreHomeEntry.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                if (!(scoreHomeEntry.getText().toString().equals(""))) {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Nothing to do
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Nothing to do
+            }
+        });  //allows click of button if textfield is not empty
 
         //Handle miscellaneous set (non-individual) stats
 
@@ -347,8 +400,8 @@ public class Basic extends AppCompatActivity {
         //reset the stat specific things
         //this just sets the counters to zero
         resetSetStats();
-
     }
+
 
     /**
      * Method writes the stat that should be logged in the text file
