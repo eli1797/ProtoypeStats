@@ -154,7 +154,10 @@ public class Basic extends AppCompatActivity {
         ofNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                statLogger.writeToFile(file, "Of Note at " + textView3.getText().toString());
+                boolean success = statLogger.writeToFile(file, "Of Note at " + textView3.getText().toString());
+                if (success) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Something of note logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
@@ -186,7 +189,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 serveLosses++;  //loss from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve Loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
