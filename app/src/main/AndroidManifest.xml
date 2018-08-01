@@ -23,7 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Basic">Basic</activity>
+        <activity
+            android:name=".Basic"
+            android:screenOrientation="sensorPortrait">
+        </activity>
     </application>
 
 </manifest>

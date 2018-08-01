@@ -238,7 +238,7 @@ public class Basic extends AppCompatActivity {
 
         //throw an with a list of players so the user can assign a player to the stat
         AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
-        builder.setTitle("Choose a player");
+        builder.setTitle("Assign " + type + " to player");
 
         // add the the list
         builder.setItems(getResources().getStringArray(R.array.players), new DialogInterface.OnClickListener() {
