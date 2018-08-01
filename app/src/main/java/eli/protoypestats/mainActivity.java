@@ -137,7 +137,11 @@ public class mainActivity extends AppCompatActivity {
         }
     }
 
-    private void goToStats(View view) {
+    /**
+     * This method validates the user entry then moves to the next activity
+     * @param view The current view
+     */
+    void goToStats(View view) {
 
         homeTeam.setError(null);
         awayTeam.setError(null);
@@ -187,5 +191,4 @@ public class mainActivity extends AppCompatActivity {
 
         return valid;
     }
-
 }
