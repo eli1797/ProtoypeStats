@@ -16,5 +16,6 @@ public enum StatTypes {
     HIT_ATTEMPT, //use in coordination will kills to determine efficiency
     OF_NOTE,
     WON_POINT_ON_RECEIVE, //a stat experiment
-    LOST_POINT_ON_RECEIVE
+    LOST_POINT_ON_RECEIVE,
+    TIME_ON_SIDE //stat experiment (does time on side correlate with who wins?)
 }
