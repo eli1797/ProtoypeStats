@@ -12,6 +12,17 @@ public class Set {
     private String teamOne, teamTwo;
     private int teamOneScore, teamTwoScore;
 
+    //stats
+    private int receiveWin, receiveLoss;
+    private int serveWin, serveLoss;
+
+
+    @Override
+    public String toString() {
+        return "Set between " + teamOne + ": " + teamOneScore + " and " + teamTwo + ": " + teamTwoScore;
+    }
+
+    // Getters and Setters
     public int getTeamOneScore() {
         return teamOneScore;
     }
@@ -28,10 +39,6 @@ public class Set {
         this.teamTwoScore = teamTwoScore;
     }
 
-    //stats
-    private int receiveWin;
-    private int receiveLoss;
-
     public int getServeWin() {
         return serveWin;
     }
@@ -47,9 +54,6 @@ public class Set {
     public void setServeLoss(int serveLoss) {
         this.serveLoss = serveLoss;
     }
-
-    private int serveWin;
-    private int serveLoss;
 
     public String getTeamOne() {
         return teamOne;
@@ -91,8 +95,4 @@ public class Set {
         this.receiveLoss = receiveLoss + 1;
     }
 
-    @Override
-    public String toString() {
-        return "Set between " + teamOne + ": " + teamOneScore + " and " + teamTwo + ": " + teamTwoScore;
-    }
 }
