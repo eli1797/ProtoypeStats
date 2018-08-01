@@ -64,7 +64,8 @@
         app:layout_constraintBottom_toTopOf="@+id/of_note"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/kill" />
+        app:layout_constraintStart_toEndOf="@+id/kill"
+        app:layout_constraintTop_toTopOf="@+id/kill" />
 
     <Button
         android:id="@+id/ace"
@@ -76,7 +77,8 @@
         app:layout_constraintBottom_toTopOf="@+id/of_note"
         app:layout_constraintEnd_toStartOf="@+id/kill"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/kill" />
 
     <Button
         android:id="@+id/receive_loss"
