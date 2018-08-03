@@ -81,7 +81,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/midline_guidline" />
+        app:layout_constraintTop_toTopOf="@+id/midline_guideline" />
 
     <Button
         android:id="@+id/receive_loss"
@@ -164,7 +164,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/great_serve"
-        app:layout_constraintTop_toTopOf="@+id/midline_guidline" />
+        app:layout_constraintTop_toTopOf="@+id/midline_guideline" />
 
     <android.support.constraint.Guideline
         android:id="@+id/top_guideline"
@@ -181,7 +181,7 @@
         app:layout_constraintGuide_end="45dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/midline_guidline"
+        android:id="@+id/midline_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
