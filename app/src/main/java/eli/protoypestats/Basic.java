@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -46,7 +45,7 @@ public class Basic extends AppCompatActivity {
     int mins, secs, millis;
 
     //stat recording elements
-    Button error, kill, block, ace, receiveWin, receiveLoss, ofNote, serveWin, serveLoss;
+    Button error, kill, block, greatServe, receiveWin, receiveLoss, ofNote, serveWin, serveLoss;
     String matchTitle, homeTeam, awayTeam;
     int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0;
 
@@ -124,7 +123,7 @@ public class Basic extends AppCompatActivity {
         error = (Button) findViewById(R.id.error);
         kill = (Button) findViewById(R.id.kill);
         block = (Button) findViewById(R.id.block);
-        ace = (Button) findViewById(R.id.ace);
+        greatServe = (Button) findViewById(R.id.great_serve);
         ofNote = (Button) findViewById(R.id.of_note);
         receiveWin = (Button) findViewById(R.id.receive_win);
         receiveLoss = (Button) findViewById(R.id.receive_loss);
@@ -153,10 +152,10 @@ public class Basic extends AppCompatActivity {
             }
         });
 
-        ace.setOnClickListener(new View.OnClickListener() {
+        greatServe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonHandler("Ace");
+                buttonHandler("Great Serve");
             }
         });
 
@@ -239,7 +238,7 @@ public class Basic extends AppCompatActivity {
 
     /**
      * This method handles individual stats
-     * @param type The stat: block, ace, kill, etc.
+     * @param type The stat: block, greatServe, kill, etc.
      */
     private void buttonHandler(final String type) {
         //record the timestamp as soon as the button is pressed
