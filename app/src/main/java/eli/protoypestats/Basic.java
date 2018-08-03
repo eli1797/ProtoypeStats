@@ -45,9 +45,9 @@ public class Basic extends AppCompatActivity {
     int mins, secs, millis;
 
     //stat recording elements
-    Button error, kill, block, greatServe, receiveWin, receiveLoss, ofNote, serveWin, serveLoss;
+    Button error, kill, block, greatServe, netServe, receiveWin, receiveLoss, ofNote, serveWin, serveLoss;
     String matchTitle, homeTeam, awayTeam;
-    int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0;
+    int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0, greatServes = 0, netServes = 0;
 
 
     @Override
@@ -124,6 +124,7 @@ public class Basic extends AppCompatActivity {
         kill = (Button) findViewById(R.id.kill);
         block = (Button) findViewById(R.id.block);
         greatServe = (Button) findViewById(R.id.great_serve);
+        netServe = (Button) findViewById(R.id.net_serve);
         ofNote = (Button) findViewById(R.id.of_note);
         receiveWin = (Button) findViewById(R.id.receive_win);
         receiveLoss = (Button) findViewById(R.id.receive_loss);
@@ -135,6 +136,16 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 buttonHandler("Error");
+            }
+        });
+
+        ofNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean success = statLogger.writeToFile(file, "Of Note at " + textView3.getText().toString());
+                if (success) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Something of note logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
@@ -155,19 +166,21 @@ public class Basic extends AppCompatActivity {
         greatServe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                greatServes++;
                 buttonHandler("Great Serve");
             }
         });
 
-        ofNote.setOnClickListener(new View.OnClickListener() {
+        netServe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean success = statLogger.writeToFile(file, "Of Note at " + textView3.getText().toString());
-                if (success) {
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Something of note logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                }
+                netServes++;  //win from receiving serve
+                Snackbar.make(findViewById(R.id.constraintLayout), "Recorded a serve into the net", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+
+
+
 
         receiveWin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,6 +217,7 @@ public class Basic extends AppCompatActivity {
             }
         });
 
+
         endSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,6 +229,8 @@ public class Basic extends AppCompatActivity {
                 statLogger.writeToFile(file, "Receive Losses: " + receiveLosses);
                 statLogger.writeToFile(file,"Serve Wins: " + serveWins);
                 statLogger.writeToFile(file, "Serve Losses: " + serveLosses);
+                statLogger.writeToFile(file,"Great Serves: " + greatServes);
+                statLogger.writeToFile(file, "Net Serves: " + netServes);
 
                 //log the final scores
                 getScores();
@@ -399,6 +415,8 @@ public class Basic extends AppCompatActivity {
         curSet.setReceiveLoss(receiveLosses);
         curSet.setServeWin(serveWins);
         curSet.setServeLoss(serveLosses);
+        curSet.setGreatServe(greatServes);
+        curSet.setNetServe(netServes);
 
         match.add(curSet);
 
@@ -453,6 +471,8 @@ public class Basic extends AppCompatActivity {
         receiveWins = 0;
         serveWins = 0;
         serveLosses = 0;
+        greatServes = 0;
+        netServes = 0;
     }
 
     /**
