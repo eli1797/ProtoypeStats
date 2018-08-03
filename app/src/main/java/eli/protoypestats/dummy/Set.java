@@ -15,6 +15,7 @@ public class Set {
     //stats
     private int receiveWin, receiveLoss;
     private int serveWin, serveLoss;
+    private int greatServe, netServe;
 
 
     @Override
@@ -22,6 +23,23 @@ public class Set {
         return "Set between " + teamOne + ": " + homeTeamScore + " and " + teamTwo + ": " + awayTeamScore;
     }
 
+
+    public int getGreatServe() {
+        return greatServe;
+    }
+
+    public void setGreatServe(int greatServe) {
+        this.greatServe = greatServe;
+    }
+
+    public int getNetServe() {
+        return netServe;
+    }
+
+    public void setNetServe(int netServe) {
+        this.netServe = netServe;
+    }
+    
 
     public int getHomeTeamScore() {
         return homeTeamScore;
