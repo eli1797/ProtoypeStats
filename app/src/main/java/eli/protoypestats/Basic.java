@@ -179,9 +179,6 @@ public class Basic extends AppCompatActivity {
             }
         });
 
-
-
-
         receiveWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

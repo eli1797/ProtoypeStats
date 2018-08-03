@@ -23,7 +23,6 @@ public class Set {
         return "Set between " + teamOne + ": " + homeTeamScore + " and " + teamTwo + ": " + awayTeamScore;
     }
 
-
     public int getGreatServe() {
         return greatServe;
     }
@@ -39,7 +38,6 @@ public class Set {
     public void setNetServe(int netServe) {
         this.netServe = netServe;
     }
-    
 
     public int getHomeTeamScore() {
         return homeTeamScore;
