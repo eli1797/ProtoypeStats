@@ -51,6 +51,11 @@
         <item>Tom</item>
         <item>Tyler</item>
     </string-array>
-
-
+    <string-array name="errors">
+        <item>Communication</item>
+        <item>Performance (shank, double)</item>
+        <item>Position/Location</item>
+        <item>Other</item>
+    </string-array>
+    
 </resources>
