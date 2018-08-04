@@ -3,6 +3,7 @@ package eli.protoypestats;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -221,7 +222,6 @@ public class Basic extends AppCompatActivity {
             }
         });
 
-
         endSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -242,6 +242,15 @@ public class Basic extends AppCompatActivity {
                 getScores();
 
                 statLogger.writeToFile(file, ""); //for nice formatting
+            }
+        });
+
+        /* Message logging */
+        FloatingActionButton fab = findViewById(R.id.message_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageHandler();
             }
         });
     }
@@ -280,7 +289,7 @@ public class Basic extends AppCompatActivity {
                 boolean successLog = statLogger.writeToFile(file, toLog);
                 //if everything works out let the user know their entry was recorded
                 if (successLog) {
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged a(n) " + type, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged a " + type, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
@@ -313,6 +322,46 @@ public class Basic extends AppCompatActivity {
                 if (successLog) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Logged an error", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * This method handles error stats
+     */
+    private void messageHandler() {
+        //record the timestamp as soon as the button is pressed
+        final String time = textView3.getText().toString();
+
+        //throw an with a list of players so the user can assign a player to the stat
+        final EditText messageEntry = new EditText(this);
+        messageEntry.setInputType(InputType.TYPE_CLASS_TEXT);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
+        builder.setTitle("Write a note");
+        builder.setView(messageEntry); //add the EditText field to the alert dialog
+        builder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //get the user input
+                String message = "Note at " + time + ": " + messageEntry.getText().toString();
+                //log the message
+                boolean successLog = statLogger.writeToFile(file, message);
+                //if everything works out let the user know their entry was recorded
+                if (successLog) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged the note", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                dialog.cancel();
             }
         });
 
