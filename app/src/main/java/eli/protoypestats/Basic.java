@@ -155,7 +155,10 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 closedDBs++;
-                buttonHandler("Closed Double Block");
+                boolean success = statLogger.writeToFile(file, "Closed Double Block at " + textView3.getText().toString());
+                if (success) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged a Closed Double Block", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
