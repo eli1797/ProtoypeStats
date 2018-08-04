@@ -16,12 +16,30 @@ public class Set {
     private int receiveWin, receiveLoss;
     private int serveWin, serveLoss;
     private int greatServe, netServe;
+    private int openDB, closedDB;
 
 
     @Override
     public String toString() {
         return "Set between " + teamOne + ": " + homeTeamScore + " and " + teamTwo + ": " + awayTeamScore;
     }
+
+    public int getOpenDB() {
+        return openDB;
+    }
+
+    public void setOpenDB(int openDB) {
+        this.openDB = openDB;
+    }
+
+    public int getClosedDB() {
+        return closedDB;
+    }
+
+    public void setClosedDB(int closedDB) {
+        this.closedDB = closedDB;
+    }
+    
 
     public int getGreatServe() {
         return greatServe;
