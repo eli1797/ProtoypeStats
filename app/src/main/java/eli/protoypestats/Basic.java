@@ -232,6 +232,8 @@ public class Basic extends AppCompatActivity {
                 statLogger.writeToFile(file, "Serve Losses: " + serveLosses);
                 statLogger.writeToFile(file,"Great Serves: " + greatServes);
                 statLogger.writeToFile(file, "Net Serves: " + netServes);
+                statLogger.writeToFile(file,"Closed Double Blocks: " + closedDBs);
+                statLogger.writeToFile(file, "Open Double Blocks: " + openDBs);
 
                 //log the final scores
                 getScores();
@@ -275,7 +277,7 @@ public class Basic extends AppCompatActivity {
                 boolean successLog = statLogger.writeToFile(file, toLog);
                 //if everything works out let the user know their entry was recorded
                 if (successLog) {
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged a(n) " + type, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
