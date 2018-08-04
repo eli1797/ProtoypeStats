@@ -32,14 +32,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/kill"
-        android:layout_width="wrap_content"
+        android:id="@+id/closed_block"
+        android:layout_width="105dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/kill"
-        app:layout_constraintBottom_toTopOf="@+id/block"
+        android:text="@string/closed_dub_blk"
+        app:layout_constraintBottom_toTopOf="@+id/open_block"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toEndOf="@+id/of_note"
         app:layout_constraintTop_toTopOf="@+id/top_guideline"
@@ -47,28 +47,28 @@
 
     <Button
         android:id="@+id/error"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/error"
         app:layout_constraintBottom_toTopOf="@+id/great_serve"
-        app:layout_constraintEnd_toStartOf="@+id/block"
+        app:layout_constraintEnd_toStartOf="@+id/open_block"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/of_note" />
 
     <Button
-        android:id="@+id/block"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:id="@+id/open_block"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/block"
+        android:text="@string/open_dub_blk"
         app:layout_constraintBottom_toTopOf="@+id/net_serve"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toEndOf="@+id/error"
-        app:layout_constraintTop_toBottomOf="@+id/kill" />
+        app:layout_constraintTop_toBottomOf="@+id/closed_block" />
 
     <Button
         android:id="@+id/great_serve"
@@ -119,15 +119,15 @@
 
     <Button
         android:id="@+id/of_note"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/of_note"
         app:layout_constraintBottom_toTopOf="@+id/error"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/kill"
+        app:layout_constraintEnd_toStartOf="@+id/closed_block"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toTopOf="@+id/top_guideline"

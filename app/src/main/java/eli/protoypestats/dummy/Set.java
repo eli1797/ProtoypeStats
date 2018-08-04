@@ -39,7 +39,7 @@ public class Set {
     public void setClosedDB(int closedDB) {
         this.closedDB = closedDB;
     }
-    
+
 
     public int getGreatServe() {
         return greatServe;

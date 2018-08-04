@@ -45,9 +45,11 @@ public class Basic extends AppCompatActivity {
     int mins, secs, millis;
 
     //stat recording elements
-    Button error, kill, block, greatServe, netServe, receiveWin, receiveLoss, ofNote, serveWin, serveLoss;
+    Button error, closedDB, openDB, greatServe, netServe, receiveWin, receiveLoss, ofNote,
+            serveWin, serveLoss;
     String matchTitle, homeTeam, awayTeam;
-    int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0, greatServes = 0, netServes = 0;
+    int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0, greatServes = 0,
+            netServes = 0, openDBs = 0, closedDBs = 0;
 
 
     @Override
@@ -121,8 +123,8 @@ public class Basic extends AppCompatActivity {
 
         /* Stat recording */
         error = (Button) findViewById(R.id.error);
-        kill = (Button) findViewById(R.id.kill);
-        block = (Button) findViewById(R.id.block);
+        closedDB = (Button) findViewById(R.id.closed_block);
+        openDB = (Button) findViewById(R.id.open_block);
         greatServe = (Button) findViewById(R.id.great_serve);
         netServe = (Button) findViewById(R.id.net_serve);
         ofNote = (Button) findViewById(R.id.of_note);
@@ -149,17 +151,19 @@ public class Basic extends AppCompatActivity {
             }
         });
 
-        kill.setOnClickListener(new View.OnClickListener() {
+        closedDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonHandler("Kill");
+                closedDBs++;
+                buttonHandler("Closed Double Block");
             }
         });
 
-        block.setOnClickListener(new View.OnClickListener() {
+        openDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonHandler("Block");
+                openDBs++;
+                buttonHandler("Open Double Block");
             }
         });
 
@@ -251,7 +255,7 @@ public class Basic extends AppCompatActivity {
 
     /**
      * This method handles individual stats
-     * @param type The stat: block, greatServe, kill, etc.
+     * @param type The stat: openDB, greatServe, closedDB, etc.
      */
     private void buttonHandler(final String type) {
         //record the timestamp as soon as the button is pressed
@@ -414,6 +418,8 @@ public class Basic extends AppCompatActivity {
         curSet.setServeLoss(serveLosses);
         curSet.setGreatServe(greatServes);
         curSet.setNetServe(netServes);
+        curSet.setClosedDB(closedDBs);
+        curSet.setOpenDB(openDBs);
 
         match.add(curSet);
 
@@ -470,6 +476,8 @@ public class Basic extends AppCompatActivity {
         serveLosses = 0;
         greatServes = 0;
         netServes = 0;
+        closedDBs = 0;
+        openDBs = 0;
     }
 
     /**

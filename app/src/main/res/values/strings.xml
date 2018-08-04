@@ -12,8 +12,8 @@
     <string name="block">Block</string>
     <string name="error">Error</string>
     <string name="kill">Kill</string>
-    <string name="closed_dub_blk">Closed Double Block</string>
-    <string name="open_dub_blk">Open Double Block</string>
+    <string name="closed_dub_blk">Closed D.B</string>
+    <string name="open_dub_blk">Open D.B.</string>
     <string name="_00_00_00">00:00:00</string>
     <string name="start">Start</string>
     <string name="end_set">End set</string>
