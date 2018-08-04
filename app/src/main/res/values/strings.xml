@@ -27,6 +27,7 @@
     <string name="serve_win">Serve Win</string>
     <string name="serve_loss">Serve Loss</string>
     <string name="net_serve">Net Serve</string>
+    <string name="info_will_be_stored_in_your_download_folder">Info will be stored in your /download folder</string>
     <string-array name="players">
         <item>Brendan</item>
         <item>Chris</item>
