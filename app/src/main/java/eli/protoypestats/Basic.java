@@ -137,7 +137,7 @@ public class Basic extends AppCompatActivity {
         error.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonHandler("Error");
+                errorHandler();
             }
         });
 
@@ -166,7 +166,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openDBs++;
-                buttonHandler("Open Double Block");
+                peopleHandler("Open Double Block");
             }
         });
 
@@ -174,7 +174,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 greatServes++;
-                buttonHandler("Great Serve");
+                peopleHandler("Great Serve");
             }
         });
 
@@ -262,7 +262,7 @@ public class Basic extends AppCompatActivity {
      * This method handles individual stats
      * @param type The stat: openDB, greatServe, closedDB, etc.
      */
-    private void buttonHandler(final String type) {
+    private void peopleHandler(final String type) {
         //record the timestamp as soon as the button is pressed
         final String time = textView3.getText().toString();
 
@@ -281,6 +281,37 @@ public class Basic extends AppCompatActivity {
                 //if everything works out let the user know their entry was recorded
                 if (successLog) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Logged a(n) " + type, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * This method handles error stats
+     */
+    private void errorHandler() {
+        //record the timestamp as soon as the button is pressed
+        final String time = textView3.getText().toString();
+
+        //throw an with a list of players so the user can assign a player to the stat
+        AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
+        builder.setTitle("Assign error type");
+
+        // add the the list
+        builder.setItems(getResources().getStringArray(R.array.errors), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //create the string we want to write to the text file
+                String toLog = getResources().getStringArray(R.array.errors)[which] + " error at " + time;
+                //write it using the StatLoggerSingleton
+                boolean successLog = statLogger.writeToFile(file, toLog);
+                //if everything works out let the user know their entry was recorded
+                if (successLog) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged an error", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
