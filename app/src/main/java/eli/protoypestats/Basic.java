@@ -46,8 +46,9 @@ public class Basic extends AppCompatActivity {
     int mins, secs, millis;
 
     //stat recording elements
+    TextView rotation;
     Button error, closedDB, openDB, greatServe, netServe, receiveWin, receiveLoss, ofNote,
-            serveWin, serveLoss;
+            serveWin, serveLoss, plusRotation, minusRotation;
     String matchTitle, homeTeam, awayTeam;
     int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0, greatServes = 0,
             netServes = 0, openDBs = 0, closedDBs = 0;
@@ -123,75 +124,112 @@ public class Basic extends AppCompatActivity {
         });
 
         /* Stat recording */
-        error = (Button) findViewById(R.id.error);
-        closedDB = (Button) findViewById(R.id.closed_block);
-        openDB = (Button) findViewById(R.id.open_block);
+//        error = (Button) findViewById(R.id.error);
+//        closedDB = (Button) findViewById(R.id.closed_block);
+//        openDB = (Button) findViewById(R.id.open_block);
         greatServe = (Button) findViewById(R.id.great_serve);
         netServe = (Button) findViewById(R.id.net_serve);
-        ofNote = (Button) findViewById(R.id.of_note);
+//        ofNote = (Button) findViewById(R.id.of_note);
         receiveWin = (Button) findViewById(R.id.receive_win);
         receiveLoss = (Button) findViewById(R.id.receive_loss);
         serveWin = (Button) findViewById(R.id.serve_win);
         serveLoss = (Button) findViewById(R.id.serve_loss);
 
+        rotation = (TextView) findViewById(R.id.rotation);
+        plusRotation = (Button) findViewById(R.id.plus_rotation);
+        minusRotation = (Button) findViewById(R.id.minus_rotation);
 
-        error.setOnClickListener(new View.OnClickListener() {
+
+//        error.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                errorHandler();
+//            }
+//        });
+
+        plusRotation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                errorHandler();
-            }
-        });
-
-        ofNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean success = statLogger.writeToFile(file, "Of Note at " + textView3.getText().toString());
-                if (success) {
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Something of note logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                int setTo;
+                int rotationNum = Integer.parseInt((String) rotation.getText());
+                if (rotationNum >= 6) {
+                    setTo = 1;
+                } else {
+                    setTo = rotationNum + 1;
                 }
+
+                rotation.setText("" + setTo);
             }
         });
 
-        closedDB.setOnClickListener(new View.OnClickListener() {
+        minusRotation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                closedDBs++;
-                boolean success = statLogger.writeToFile(file, "Closed Double Block at " + textView3.getText().toString());
-                if (success) {
-                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged a Closed Double Block", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                int setTo;
+                int rotationNum = Integer.parseInt((String) rotation.getText());
+                if (rotationNum <= 1) {
+                    setTo = 6;
+                } else {
+                    setTo = rotationNum - 1;
                 }
+
+                rotation.setText("" + setTo);
             }
         });
 
-        openDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDBs++;
-                peopleHandler("Open Double Block");
-            }
-        });
+//        ofNote.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean success = statLogger.writeToFile(file, "Of Note at " + textView3.getText().toString());
+//                if (success) {
+//                    Snackbar.make(findViewById(R.id.constraintLayout), "Something of note logged", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                }
+//            }
+//        });
 
-        greatServe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                greatServes++;
-                peopleHandler("Great Serve");
-            }
-        });
-
-        netServe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                netServes++;  //win from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Recorded a serve into the net", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
+//        closedDB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                closedDBs++;
+//                boolean success = statLogger.writeToFile(file, "Closed Double Block at " + textView3.getText().toString());
+//                if (success) {
+//                    Snackbar.make(findViewById(R.id.constraintLayout), "Logged a Closed Double Block", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                }
+//            }
+//        });
+//
+//        openDB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openDBs++;
+//                peopleHandler("Open Double Block");
+//            }
+//        });
+//
+//        greatServe.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                greatServes++;
+//                peopleHandler("Great Serve");
+//            }
+//        });
+//
+//        netServe.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                netServes++;  //win from receiving serve
+//                Snackbar.make(findViewById(R.id.constraintLayout), "Recorded a serve into the net", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//            }
+//        });
 
         receiveWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                receiveWins++;  //win from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                receiveWins++;  //loss from receiving serve
+                boolean success = statLogger.writeToFile(file, "Receive win at " + textView3.getText().toString() + " in rotation " + rotation.getText());
+                if (success) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
@@ -199,7 +237,7 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 receiveLosses++;  //loss from receiving serve
-                boolean success = statLogger.writeToFile(file, "Receive loss at " + textView3.getText().toString());
+                boolean success = statLogger.writeToFile(file, "Receive loss at " + textView3.getText().toString() + " in rotation " + rotation.getText());
                 if (success) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
@@ -210,7 +248,10 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 serveWins++;  //loss from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                boolean success = statLogger.writeToFile(file, "Serve win at " + textView3.getText().toString() + " in rotation " + rotation.getText());
+                if (success) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
@@ -218,7 +259,10 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 serveLosses++;  //loss from receiving serve
-                Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                boolean success = statLogger.writeToFile(file, "Serve loss at " + textView3.getText().toString() + " in rotation " + rotation.getText());
+                if (success) {
+                    Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
@@ -254,6 +298,7 @@ public class Basic extends AppCompatActivity {
             }
         });
     }
+
 
     /**
      * When the user closes the timer give a summary of the match
@@ -329,7 +374,6 @@ public class Basic extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
     /**
      * This method handles error stats
      */
