@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import eli.protoypestats.dummy.Set;
@@ -53,6 +54,11 @@ public class Basic extends AppCompatActivity {
     int receiveWins = 0, receiveLosses = 0, serveWins = 0, serveLosses = 0, greatServes = 0,
             netServes = 0, openDBs = 0, closedDBs = 0;
 
+
+    HashMap<Integer, Integer> serviceLosses = new HashMap<Integer, Integer>();
+    HashMap<Integer, Integer> serviceWins = new HashMap<Integer, Integer>();
+    HashMap<Integer, Integer> receptionLosses = new HashMap<Integer, Integer>();
+    HashMap<Integer, Integer> receptionWins = new HashMap<Integer, Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +231,14 @@ public class Basic extends AppCompatActivity {
         receiveWin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                receiveWins++;  //loss from receiving serve
+                receiveWins++;  //loss from receiving serves
+                int rotationNum = Integer.parseInt((String) rotation.getText());
+                try {
+                    int current = receptionWins.get(rotationNum);
+                    receptionWins.put(rotationNum, current + 1);
+                } catch (NullPointerException npe) {
+                    receptionWins.put(rotationNum, 1);
+                }
                 boolean success = statLogger.writeToFile(file, "Receive win at " + textView3.getText().toString() + " in rotation " + rotation.getText());
                 if (success) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -237,6 +250,13 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 receiveLosses++;  //loss from receiving serve
+                int rotationNum = Integer.parseInt((String) rotation.getText());
+                try {
+                    int current = receptionLosses.get(rotationNum);
+                    receptionLosses.put(rotationNum, current + 1);
+                } catch (NullPointerException npe) {
+                    receptionLosses.put(rotationNum, 1);
+                }
                 boolean success = statLogger.writeToFile(file, "Receive loss at " + textView3.getText().toString() + " in rotation " + rotation.getText());
                 if (success) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Added a receive loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -248,6 +268,13 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 serveWins++;  //loss from receiving serve
+                int rotationNum = Integer.parseInt((String) rotation.getText());
+                try {
+                    int current = serviceWins.get(rotationNum);
+                    serviceWins.put(rotationNum, current + 1);
+                } catch (NullPointerException npe) {
+                    serviceWins.put(rotationNum, 1);
+                }
                 boolean success = statLogger.writeToFile(file, "Serve win at " + textView3.getText().toString() + " in rotation " + rotation.getText());
                 if (success) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve win", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -259,6 +286,14 @@ public class Basic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 serveLosses++;  //loss from receiving serve
+                int rotationNum = Integer.parseInt((String) rotation.getText());
+                Log.d(TAG, "Rotation number is " + rotationNum);
+                try {
+                    int current = serviceLosses.get(rotationNum);
+                    serviceLosses.put(rotationNum, current + 1);
+                } catch (NullPointerException npe) {
+                    serviceLosses.put(rotationNum, 1);
+                }
                 boolean success = statLogger.writeToFile(file, "Serve loss at " + textView3.getText().toString() + " in rotation " + rotation.getText());
                 if (success) {
                     Snackbar.make(findViewById(R.id.constraintLayout), "Added a serve loss", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -281,6 +316,12 @@ public class Basic extends AppCompatActivity {
                 statLogger.writeToFile(file, "Net Serves: " + netServes);
                 statLogger.writeToFile(file,"Closed Double Blocks: " + closedDBs);
                 statLogger.writeToFile(file, "Open Double Blocks: " + openDBs);
+
+                //log hashmaps
+                statLogger.writeToFile(file, "Service Wins by Rotation" + serviceWins.toString());
+                statLogger.writeToFile(file, "Service Losses by Rotation" + serviceLosses.toString());
+                statLogger.writeToFile(file, "Reception Wins by Rotation" + receptionWins.toString());
+                statLogger.writeToFile(file, "Reception Losses by Rotation" + receptionLosses.toString());
 
                 //log the final scores
                 getScores();
