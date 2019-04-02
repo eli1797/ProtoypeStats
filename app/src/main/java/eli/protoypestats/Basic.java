@@ -14,8 +14,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.io.File;
 import java.util.HashMap;
@@ -41,7 +43,9 @@ public class Basic extends AppCompatActivity {
 
     //stopwatch elements
     TextView textView3;
-    Button startTimer;
+//    Button startTimer;
+    ToggleButton toggle;
+    Button reset;
     Handler handler;
     long milliTime, startTime, timeBuff, updateTime = 0L;
     int mins, secs, millis;
@@ -84,50 +88,110 @@ public class Basic extends AppCompatActivity {
 
         /* Stopwatch */
         textView3 = (TextView) findViewById(R.id.textView3);
-        startTimer = (Button) findViewById(R.id.start_button);
+//        startTimer = (Button) findViewById(R.id.start_button);
+        toggle = (ToggleButton) findViewById(R.id.timer_toggle);
+        reset = (Button) findViewById(R.id.reset_button);
 
         handler = new Handler();
 
-        startTimer.setOnClickListener(new View.OnClickListener() {
+        //reset button handler
+        reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (startTime == 0) {
-                    //start the stopwatch (aka start the runnable)
-                    startTime = SystemClock.uptimeMillis();
-                    handler.postDelayed(runnable, 0);
+                // Don't want the user to accidentally reset the stopwatch
+                // setup the alert builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
+                builder.setTitle("Are you sure?");
+                builder.setMessage("The clock has already been started. Are you sure you want to reset?");
+
+                builder.setPositiveButton(R.string.yes_time, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //stop the runnable
+                        handler.removeCallbacks(runnable);
+                        //reset the stopwatch
+                        startTime = 0;
+                        textView3.setText("00:00:00");
+                        //write then clear the match data
+                        reviewMatch();
+                        match = new LinkedList<>();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(R.string.no_time, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        dialog.cancel();
+                    }
+                });
+
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    if (startTime == 0) {
+                        //start the stopwatch (aka start the runnable)
+                        startTime = SystemClock.uptimeMillis();
+                        handler.postDelayed(runnable, 0);
+                    } else {
+                        //restart the stopwatch
+                        runnable.run();
+                    }
                 } else {
-                    // Don't want the user to accidentally reset the stopwatch
-                    // setup the alert builder
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
-                    builder.setTitle("Are you sure?");
-                    builder.setMessage("The clock has already been started. Are you sure you want to reset?");
+                    // The toggle is disabled
+                    //"pause" the timer
+                    handler.removeCallbacks(runnable);
 
-                    builder.setPositiveButton(R.string.yes_time, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //stop the runnable
-                            handler.removeCallbacks(runnable);
-                            //reset the stopwatch
-                            startTime = 0;
-                            textView3.setText("00:00:00");
-                            //write then clear the match data
-                            reviewMatch();
-                            match = new LinkedList<>();
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setNegativeButton(R.string.no_time, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // User cancelled the dialog
-                            dialog.cancel();
-                        }
-                    });
-
-                    // create and show the alert dialog
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
                 }
             }
         });
+
+
+//        startTimer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (startTime == 0) {
+//                    //start the stopwatch (aka start the runnable)
+//                    startTime = SystemClock.uptimeMillis();
+//                    handler.postDelayed(runnable, 0);
+//                } else {
+//                    // Don't want the user to accidentally reset the stopwatch
+//                    // setup the alert builder
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(Basic.this);
+//                    builder.setTitle("Are you sure?");
+//                    builder.setMessage("The clock has already been started. Are you sure you want to reset?");
+//
+//                    builder.setPositiveButton(R.string.yes_time, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            //stop the runnable
+//                            handler.removeCallbacks(runnable);
+//                            //reset the stopwatch
+//                            startTime = 0;
+//                            textView3.setText("00:00:00");
+//                            //write then clear the match data
+//                            reviewMatch();
+//                            match = new LinkedList<>();
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    builder.setNegativeButton(R.string.no_time, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            // User cancelled the dialog
+//                            dialog.cancel();
+//                        }
+//                    });
+//
+//                    // create and show the alert dialog
+//                    AlertDialog dialog = builder.create();
+//                    dialog.show();
+//                }
+//            }
+//        });
 
         /* Stat recording */
 //        error = (Button) findViewById(R.id.error);
